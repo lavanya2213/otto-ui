@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Otto Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:'Poppins',sans-serif;
+  transition:0.3s ease;
+}
+
+/* ================= LIGHT THEME ================= */
+
+body.light-theme{
+  background:#e9eef5;
+}
+
+body.light-theme .mobile-view{
+  background:linear-gradient(to bottom,#f6e8da,#ead6c2);
+  color:#5a4636;
+}
+
+body.light-theme .mode-btn.active,
+body.light-theme .stop-btn{
+  background:linear-gradient(145deg,#ff9b4f,#ff7a1a);
+  color:white;
+}
+
+body.light-theme .nav-item{
+  color:#5a4636;
+}
+body.light-theme .emergency-btn{
+  background:#ff3b30;
+}
+
+
+body.light-theme .nav-item.active{
+  color:#ff8c32;
+}
+
+/* ================= DARK THEME ================= */
+
+body.dark-theme{
+  background:white;
+}
+
+body.dark-theme .mobile-view{
+  background:radial-gradient(circle at center,#0c2a4f 0%,#05152e 70%);
+  color:white;
+  box-shadow:0 0 40px rgba(0,255,255,0.15);
+}
+
+body.dark-theme .title,
+body.dark-theme .mode-title{
+  color:#ffffff;
+}
+
+body.dark-theme .mode-btn{
+  background:rgba(255,255,255,0.05);
+  color:#00eaff;
+  box-shadow:0 0 10px rgba(0,255,255,0.1);
+}
+
+body.dark-theme .mode-btn.active{
+  background:#00eaff;
+  color:#05152e;
+}
+
+body.dark-theme .control-pad{
+  background:rgba(255,255,255,0.05);
+  box-shadow:0 0 20px rgba(0,255,255,0.1);
+}
+
+body.dark-theme .direction{
+  background:rgba(255,255,255,0.08);
+  color:#00eaff;
+}
+
+body.dark-theme .stop-btn{
+  background:#00eaff;
+  color:#05152e;
+}
+
+body.dark-theme input[type=range]{
+  accent-color:#00eaff;
+}
+
+body.dark-theme .slider-toggle{
+  background:rgba(255,255,255,0.2);
+}
+
+body.dark-theme input:checked + .slider-toggle{
+  background:#00eaff;
+}
+
+body.dark-theme .emergency-btn{
+  background:#ff3b30;
+}
+
+body.dark-theme .reset-btn{
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+
+body.dark-theme .nav-item{
+  color:white;
+  opacity:0.6;
+}
+
+body.dark-theme .nav-item.active{
+  color:#00eaff;
+  opacity:1;
+}
+
+/* ================= COMMON STRUCTURE ================= */
+
+.mobile-view{
+  width:350px;
+  height:720px;
+  border-radius:30px;
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  transition:0.3s ease;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.back-btn{
+  position:absolute;
+  left:0;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.title{
+  font-size:18px;
+  font-weight:600;
+}
+
+/* Mode */
+
+.mode-section{
+  text-align:center;
+  margin-top:10px;
+}
+
+.mode-options{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+.mode-btn{
+  padding:6px 14px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+  font-size:13px;
+  transition:0.2s;
+}
+
+/* Control Pad */
+
+.control-pad{
+  position:relative;
+  width:210px;
+  height:210px;
+  margin:10px auto;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.stop-btn{
+  width:95px;
+  height:95px;
+  border-radius:50%;
+  border:none;
+  font-weight:600;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.direction{
+  position:absolute;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+}
+
+.up{ top:8px; left:50%; transform:translateX(-50%); }
+.left{ left:8px; top:50%; transform:translateY(-50%); }
+.right{ right:8px; top:50%; transform:translateY(-50%); }
+.down{ bottom:8px; left:50%; transform:translateX(-50%); }
+
+/* Speed & Smooth */
+
+.settings-section{
+  padding:0 5px;
+}
+
+.smooth{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.switch{
+  position:relative;
+  width:45px;
+  height:22px;
+}
+
+.switch input{display:none;}
+
+.slider-toggle{
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:30px;
+  transition:0.3s;
+}
+
+.slider-toggle::before{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:3px;
+  top:2px;
+  background:white;
+  border-radius:50%;
+  transition:0.3s;
+}
+
+input:checked + .slider-toggle::before{
+  transform:translateX(20px);
+}
+
+/* Safety */
+
+.safety{
+  margin-top:10px;
+  text-align:center;
+}
+
+.emergency-btn,
+.reset-btn{
+  width:100%;
+  padding:10px;
+  border-radius:20px;
+  border:none;
+  cursor:pointer;
+  margin-bottom:8px;
+}
+
+/* Navigation */
+
+.bottom-nav{
+  height:60px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:12px;
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="mobile-view">
+
+  <div class="header">
+    <div class="back-btn" onclick="history.back()">←</div>
+    <div class="title">Control</div>
+  </div>
+
+  <div class="mode-section">
+    <div class="mode-title">Mode</div>
+    <div class="mode-options">
+      <button class="mode-btn active">Manual</button>
+      <button class="mode-btn">Auto</button>
+    </div>
+  </div>
+
+  <div class="control-pad">
+    <button class="direction up">▲</button>
+    <button class="direction left">◀</button>
+    <button class="direction right">▶</button>
+    <button class="direction down">▼</button>
+    <button class="stop-btn">STOP</button>
+  </div>
+
+  <div class="settings-section">
+    <label>Speed</label>
+    <input type="range" min="0" max="100" value="50">
+
+    <div class="smooth">
+      <span>Smooth Mode</span>
+      <label class="switch">
+        <input type="checkbox">
+        <span class="slider-toggle"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="safety">
+    <button class="emergency-btn">EMERGENCY STOP</button>
+    <button class="reset-btn">Reset Servos</button>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="home.html" class="nav-item active">🏠<span>Home</span></a>
+    <a href="control.html" class="nav-item ">🎮<span>Control</span></a>
+    <a href="activity.html" class="nav-item">📊<span>Activity</span></a>
+    <a href="settings.html" class="nav-item">⚙<span>Settings</span></a>
+  </div>
+
+</div>
+
+<script>
+  // Apply saved theme
+  window.onload = function () {
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    document.body.classList.add(savedTheme + "-theme");
+  };
+</script>
+
+</body>
+</html>

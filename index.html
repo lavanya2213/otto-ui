@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - Otto</title>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+  <header class="header">
+    <div class="status-left" aria-label="Connection status">Connected</div>
+    <h1>Otto</h1>
+    <div class="status-right" aria-label="Battery level">Battery 80%</div>
+  </header>
+
+  <main class="home-container">
+
+    <img src="otto.png" alt="Otto Robot" class="robot-home">
+
+    <section class="home-card" aria-labelledby="status-title">
+      <h2 id="status-title">Current Status</h2>
+
+      <p>Status: <strong>Idle</strong></p>
+      <p>Mode: <strong>Manual</strong></p>
+      <p>Speed: <strong>50%</strong></p>
+    </section>
+
+    <section class="home-card" aria-labelledby="actions-title">
+      <h2 id="actions-title">Quick Actions</h2>
+
+      <button class="quick-btn start-btn">Start Session</button>
+    </section>
+
+  </main>
+
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="home.html" class="nav-item active">🏠<span>Home</span></a>
+    <a href="control.html" class="nav-item ">🎮<span>Control</span></a>
+    <a href="activity.html" class="nav-item">📊<span>Activity</span></a>
+    <a href="settings.html" class="nav-item">⚙<span>Settings</span></a>
+  </nav>
+
+</div>
+<script>
+window.addEventListener("load", function () {
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  document.body.classList.add(savedTheme + "-theme");
+});
+
+function setTheme(mode) {
+  document.body.classList.remove("dark-theme","light-theme");
+  document.body.classList.add(mode + "-theme");
+  localStorage.setItem("theme", mode);
+}
+</script>
+
+</body>
+</html>

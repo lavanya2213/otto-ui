@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activity - Otto</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+.activity-container{
+  flex:1;
+  overflow-y:auto;
+  padding-bottom:90px;
+}
+.activity-container::-webkit-scrollbar{ display:none; }
+.activity-container{ scrollbar-width:none; }
+
+.activity-graph{
+  height:220px;
+  margin:20px 0;
+  padding:15px;
+  background:rgba(255,255,255,0.05);
+  border-radius:20px;
+}
+.bottom-nav{
+  height:65px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  transition:0.3s ease;
+}
+
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:12px;
+  color:white;
+  opacity:0.6;
+  text-decoration:none;
+}
+
+.nav-item.active{
+  opacity:1;
+  color:#00eaff;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="status-left">
+      <span class="back">←</span>
+    </div>
+
+    <h1>Activity</h1>
+
+    <div class="status-right">
+      <span class="battery">🔋 80%</span>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="activity-container">
+
+    <!-- GRAPH -->
+    <div class="activity-graph">
+      <canvas id="activityChart"></canvas>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="activity-summary">
+      <h3 class="section-title">Activity Summary</h3>
+
+      <div class="summary-grid">
+        <div class="summary-box">
+          <h2 id="totalSteps">0</h2>
+          <p>Total Steps</p>
+        </div>
+
+        <div class="summary-box">
+          <h2 id="totalMoves">0</h2>
+          <p>Moves</p>
+        </div>
+
+        <div class="summary-box">
+          <h2 id="totalSessions">1</h2>
+          <p>Sessions</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG -->
+    <div class="activity-log" id="activityLog"></div>
+
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+  <a href="home.html" class="nav-item">🏠<span>Home</span></a>
+  <a href="control.html" class="nav-item">🎮<span>Control</span></a>
+  <a href="activity.html" class="nav-item active">📊<span>Activity</span></a>
+  <a href="settings.html" class="nav-item">⚙<span>Settings</span></a>
+</div>
+
+
+</div>
+
+<script>
+window.addEventListener("load", function(){
+
+  // ===== APPLY SAVED THEME =====
+  const savedTheme = localStorage.getItem("theme") || "dark";
+  document.body.classList.add(savedTheme + "-theme");
+
+  // ===== ACTIVITY SYSTEM =====
+  const maxActivities = 15;
+  let activities = [];
+
+  const logContainer = document.getElementById("activityLog");
+  const totalStepsEl = document.getElementById("totalSteps");
+  const totalMovesEl = document.getElementById("totalMoves");
+
+  const ctx = document.getElementById('activityChart').getContext('2d');
+
+  const chart = new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['Walk','Turn','Dance','Beep'],
+      datasets:[{
+        data:[0,0,0,0],
+        backgroundColor:['#2aff7a','#00c6ff','#a855f7','#ff9800'],
+        borderRadius:8
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ ticks:{color:'#fff'}, grid:{display:false}},
+        y:{ ticks:{color:'#fff'}, grid:{color:'rgba(255,255,255,0.1)'}}
+      }
+    }
+  });
+
+  function getCounts(){
+    let counts={Walk:0,Turn:0,Dance:0,Beep:0};
+    activities.forEach(a=>counts[a.category]++);
+    return counts;
+  }
+
+  function updateChart(){
+    const c=getCounts();
+    chart.data.datasets[0].data=[c.Walk,c.Turn,c.Dance,c.Beep];
+    chart.update();
+  }
+
+  function renderActivities(){
+    logContainer.innerHTML="";
+    activities.forEach(a=>{
+      const div=document.createElement("div");
+      div.className="log-item";
+      div.innerHTML=`
+        <span>${a.type}</span>
+        <span class="time">${a.time}</span>
+      `;
+      logContainer.appendChild(div);
+    });
+
+    totalStepsEl.textContent = activities.length;
+    totalMovesEl.textContent = activities.length;
+    updateChart();
+  }
+
+  function addActivity(type,category){
+    const now=new Date();
+    const time=now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+
+    activities.unshift({type,time,category});
+
+    if(activities.length>maxActivities){
+      activities.pop();
+    }
+
+    renderActivities();
+  }
+
+  // DEMO AUTO UPDATE
+  setInterval(()=>{
+    const types=[
+      {text:"Walked Forward",cat:"Walk"},
+      {text:"Turned Right",cat:"Turn"},
+      {text:"Dance: Moonwalk",cat:"Dance"},
+      {text:"Beep Sound",cat:"Beep"}
+    ];
+    const random=types[Math.floor(Math.random()*types.length)];
+    addActivity(random.text,random.cat);
+  },3000);
+
+});
+
+// ===== THEME SWITCH FUNCTION =====
+function setTheme(mode) {
+  document.body.classList.remove("dark-theme", "light-theme");
+  document.body.classList.add(mode + "-theme");
+  localStorage.setItem("theme", mode);
+}
+</script>
+
+</body>
+</html>
