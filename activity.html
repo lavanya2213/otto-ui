@@ -1,36 +1,215 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Activity - Otto</title>
-
+<title>Otto Activity</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-.activity-container{
-  flex:1;
-  overflow-y:auto;
-  padding-bottom:90px;
+body{
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:'Poppins',sans-serif;
+  transition:0.3s ease;
 }
-.activity-container::-webkit-scrollbar{ display:none; }
-.activity-container{ scrollbar-width:none; }
 
-.activity-graph{
-  height:220px;
-  margin:20px 0;
-  padding:15px;
-  background:rgba(255,255,255,0.05);
-  border-radius:20px;
+/* ================= LIGHT THEME ================= */
+
+body.light-theme{
+  background:#cfc6b9;
 }
+
+body.light-theme .mobile{
+  background:linear-gradient(to bottom,#f6e8da,#ead6c2);
+  color:#5a4636;
+}
+
+body.light-theme .card,
+body.light-theme .graph-card{
+  background:#f3e2d1;
+  box-shadow:8px 8px 18px #d6c0ab,
+             -8px -8px 18px #ffffff;
+}
+
+body.light-theme .card h2{
+  color:#ff8c32;
+}
+
+body.light-theme .bar{
+  background:linear-gradient(to top,#ff7a1a,#ffb067);
+}
+
+body.light-theme .chart::before{
+  background:
+    repeating-linear-gradient(
+      to top,
+      rgba(0,0,0,0.08) 0px,
+      rgba(0,0,0,0.08) 1px,
+      transparent 1px,
+      transparent 32px
+    );
+}
+
+body.light-theme .nav-item{
+  color:#5a4636;
+}
+
+body.light-theme .nav-item.active{
+  color:#ff8c32;
+}
+
+/* ================= DARK THEME ================= */
+
+body.dark-theme{
+  background:#0b1f3a;
+}
+
+body.dark-theme .mobile{
+  background:radial-gradient(circle at center,#0c2a4f 0%,#05152e 70%);
+  color:white;
+  box-shadow:0 0 40px rgba(0,255,255,0.15);
+}
+
+body.dark-theme .card,
+body.dark-theme .graph-card{
+  background:rgba(255,255,255,0.05);
+  box-shadow:0 0 20px rgba(0,255,255,0.08);
+}
+
+body.dark-theme .card h2{
+  color:#00eaff;
+}
+
+body.dark-theme .bar{
+  background:linear-gradient(to top,#00eaff,#0077ff);
+}
+
+body.dark-theme .chart::before{
+  background:
+    repeating-linear-gradient(
+      to top,
+      rgba(255,255,255,0.08) 0px,
+      rgba(255,255,255,0.08) 1px,
+      transparent 1px,
+      transparent 32px
+    );
+}
+
+body.dark-theme .nav-item{
+  color:white;
+  opacity:0.6;
+}
+
+body.dark-theme .nav-item.active{
+  color:#00eaff;
+  opacity:1;
+}
+
+/* ================= COMMON STRUCTURE ================= */
+
+.mobile{
+  width:350px;
+  height:720px;
+  border-radius:30px;
+  display:flex;
+  flex-direction:column;
+  padding:18px;
+  overflow:hidden;
+  transition:0.3s ease;
+}
+
+.title{
+  text-align:center;
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:15px;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.card{
+  border-radius:20px;
+  padding:15px;
+}
+
+.card h2{
+  margin:0;
+  font-size:20px;
+}
+
+.card span{
+  font-size:13px;
+}
+
+.graph-card{
+  border-radius:22px;
+  padding:18px;
+  margin-bottom:15px;
+}
+
+.graph-title{
+  font-size:15px;
+  margin-bottom:15px;
+}
+
+.chart-wrapper{
+  display:grid;
+  grid-template-columns:30px 1fr;
+  height:130px;
+}
+
+.y-axis{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  font-size:11px;
+  opacity:0.7;
+}
+
+.chart{
+  position:relative;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  height:100%;
+}
+
+.bar{
+  width:40px;
+  border-radius:10px;
+  height:0;
+  transition:height 1s ease-out;
+  position:relative;
+}
+
+.bar span{
+  position:absolute;
+  top:-20px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:12px;
+}
+
+.label-row{
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+  font-size:12px;
+}
+
 .bottom-nav{
-  height:65px;
+  height:60px;
   display:flex;
   justify-content:space-around;
   align-items:center;
-  transition:0.3s ease;
 }
 
 .nav-item{
@@ -38,183 +217,120 @@
   flex-direction:column;
   align-items:center;
   font-size:12px;
-  color:white;
-  opacity:0.6;
   text-decoration:none;
+  transition:0.3s;
 }
 
-.nav-item.active{
-  opacity:1;
-  color:#00eaff;
+.nav-item span{
+  font-size:11px;
+  margin-top:2px;
 }
-
 </style>
-
 </head>
 
 <body>
 
-<div class="app">
+<div class="mobile">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="status-left">
-      <span class="back">←</span>
+  <div class="title">Activity</div>
+
+  <div class="summary">
+    <div class="card">
+      <h2>128</h2>
+      <span>Steps</span>
     </div>
-
-    <h1>Activity</h1>
-
-    <div class="status-right">
-      <span class="battery">🔋 80%</span>
+    <div class="card">
+      <h2>5</h2>
+      <span>Sessions</span>
+    </div>
+    <div class="card">
+      <h2>6.2m</h2>
+      <span>Total Distance</span>
+    </div>
+    <div class="card">
+      <h2>32 min</h2>
+      <span>Active Time</span>
     </div>
   </div>
 
-  <!-- CONTENT -->
-  <div class="activity-container">
-
-    <!-- GRAPH -->
-    <div class="activity-graph">
-      <canvas id="activityChart"></canvas>
-    </div>
-
-    <!-- SUMMARY -->
-    <div class="activity-summary">
-      <h3 class="section-title">Activity Summary</h3>
-
-      <div class="summary-grid">
-        <div class="summary-box">
-          <h2 id="totalSteps">0</h2>
-          <p>Total Steps</p>
+  <div class="graph-card">
+    <div class="graph-title">Distance per Session</div>
+    <div class="chart-wrapper">
+      <div class="y-axis">
+        <div>3m</div>
+        <div>2m</div>
+        <div>1m</div>
+        <div>0m</div>
+      </div>
+      <div>
+        <div class="chart" id="distanceChart">
+          <div class="bar" data-value="1.2"><span>1.2m</span></div>
+          <div class="bar" data-value="2.8"><span>2.8m</span></div>
+          <div class="bar" data-value="0.8"><span>0.8m</span></div>
+          <div class="bar" data-value="2.1"><span>2.1m</span></div>
         </div>
-
-        <div class="summary-box">
-          <h2 id="totalMoves">0</h2>
-          <p>Moves</p>
-        </div>
-
-        <div class="summary-box">
-          <h2 id="totalSessions">1</h2>
-          <p>Sessions</p>
+        <div class="label-row">
+          <div>Session 1</div>
+          <div>Session 2</div>
+          <div>Session 3</div>
+          <div>Session 4</div>
         </div>
       </div>
     </div>
-
-    <!-- LOG -->
-    <div class="activity-log" id="activityLog"></div>
-
   </div>
 
-  <!-- BOTTOM NAV -->
-  <div class="bottom-nav">
-  <a href="home.html" class="nav-item">🏠<span>Home</span></a>
-  <a href="control.html" class="nav-item">🎮<span>Control</span></a>
-  <a href="activity.html" class="nav-item active">📊<span>Activity</span></a>
-  <a href="settings.html" class="nav-item">⚙<span>Settings</span></a>
-</div>
+  <div class="graph-card">
+    <div class="graph-title">Active Time</div>
+    <div class="chart-wrapper">
+      <div class="y-axis">
+        <div>3h</div>
+        <div>2h</div>
+        <div>1h</div>
+        <div>0h</div>
+      </div>
+      <div>
+        <div class="chart" id="timeChart">
+          <div class="bar" data-value="1"></div>
+          <div class="bar" data-value="2"></div>
+          <div class="bar" data-value="3"></div>
+          <div class="bar" data-value="1.5"></div>
+        </div>
+        <div class="label-row">
+          <div>10AM</div>
+          <div>2PM</div>
+          <div>6PM</div>
+          <div>10PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item">🏠<span>Home</span></a>
+    <a href="control.html" class="nav-item">🎮<span>Control</span></a>
+    <a href="activity.html" class="nav-item active">📊<span>Activity</span></a>
+    <a href="settings.html" class="nav-item">⚙️<span>Settings</span></a>
+  </nav>
 
 </div>
 
 <script>
-window.addEventListener("load", function(){
+function animateChart(chartId, maxValue){
+  const bars = document.querySelectorAll(`#${chartId} .bar`);
+  bars.forEach(bar=>{
+    const value = parseFloat(bar.dataset.value);
+    const heightPercent = (value / maxValue) * 100;
+    bar.style.height = heightPercent + "%";
+  });
+}
 
-  // ===== APPLY SAVED THEME =====
+window.onload = ()=>{
   const savedTheme = localStorage.getItem("theme") || "dark";
   document.body.classList.add(savedTheme + "-theme");
 
-  // ===== ACTIVITY SYSTEM =====
-  const maxActivities = 15;
-  let activities = [];
-
-  const logContainer = document.getElementById("activityLog");
-  const totalStepsEl = document.getElementById("totalSteps");
-  const totalMovesEl = document.getElementById("totalMoves");
-
-  const ctx = document.getElementById('activityChart').getContext('2d');
-
-  const chart = new Chart(ctx,{
-    type:'bar',
-    data:{
-      labels:['Walk','Turn','Dance','Beep'],
-      datasets:[{
-        data:[0,0,0,0],
-        backgroundColor:['#2aff7a','#00c6ff','#a855f7','#ff9800'],
-        borderRadius:8
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{ legend:{display:false} },
-      scales:{
-        x:{ ticks:{color:'#fff'}, grid:{display:false}},
-        y:{ ticks:{color:'#fff'}, grid:{color:'rgba(255,255,255,0.1)'}}
-      }
-    }
-  });
-
-  function getCounts(){
-    let counts={Walk:0,Turn:0,Dance:0,Beep:0};
-    activities.forEach(a=>counts[a.category]++);
-    return counts;
-  }
-
-  function updateChart(){
-    const c=getCounts();
-    chart.data.datasets[0].data=[c.Walk,c.Turn,c.Dance,c.Beep];
-    chart.update();
-  }
-
-  function renderActivities(){
-    logContainer.innerHTML="";
-    activities.forEach(a=>{
-      const div=document.createElement("div");
-      div.className="log-item";
-      div.innerHTML=`
-        <span>${a.type}</span>
-        <span class="time">${a.time}</span>
-      `;
-      logContainer.appendChild(div);
-    });
-
-    totalStepsEl.textContent = activities.length;
-    totalMovesEl.textContent = activities.length;
-    updateChart();
-  }
-
-  function addActivity(type,category){
-    const now=new Date();
-    const time=now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-
-    activities.unshift({type,time,category});
-
-    if(activities.length>maxActivities){
-      activities.pop();
-    }
-
-    renderActivities();
-  }
-
-  // DEMO AUTO UPDATE
-  setInterval(()=>{
-    const types=[
-      {text:"Walked Forward",cat:"Walk"},
-      {text:"Turned Right",cat:"Turn"},
-      {text:"Dance: Moonwalk",cat:"Dance"},
-      {text:"Beep Sound",cat:"Beep"}
-    ];
-    const random=types[Math.floor(Math.random()*types.length)];
-    addActivity(random.text,random.cat);
-  },3000);
-
-});
-
-// ===== THEME SWITCH FUNCTION =====
-function setTheme(mode) {
-  document.body.classList.remove("dark-theme", "light-theme");
-  document.body.classList.add(mode + "-theme");
-  localStorage.setItem("theme", mode);
-}
+  animateChart("distanceChart",3);
+  animateChart("timeChart",3);
+};
 </script>
 
 </body>
