@@ -1,180 +1,150 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Settings - Otto</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<style>
-    .bottom-nav{
-  height:65px;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  transition:0.3s ease;
-}
-
-.nav-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  font-size:12px;
-  color:white;
-  opacity:0.6;
-  text-decoration:none;
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>Settings - Otto</title>  
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">  
+<link rel="stylesheet" href="style.css">  
+<style>  
+    .bottom-nav{  
+  height:40px;  
+  display:flex;  
+  justify-content:space-around;  
+  align-items:center;  
+  transition:0.3s ease;  
+}  .nav-item{
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:12px;
+color:white;
+opacity:0.6;
+text-decoration:none;
 }
 
 .nav-item.active{
-  opacity:1;
-  color:#00eaff;
+opacity:1;
+color:#00eaff;
 }
 
-</style>
-</head>
+</style>  
+</head>  <body class="dark-theme">  <div class="app">    <!-- HEADER -->    <div class="header">  
+    <div class="status-left">  
+      <span class="back">←</span>  
+    </div>  <h1>Settings</h1>  
 
-<body class="dark-theme">
-
-<div class="app">
-
-  <!-- HEADER -->
-  <div class="header">
-    <div class="status-left">
-      <span class="back">←</span>
-    </div>
-
-    <h1>Settings</h1>
-
-    <div class="status-right">
-      <span class="battery">🔋 80%</span>
-    </div>
-  </div>
-
-
-  <div class="settings-list">
-
-    <!-- Bluetooth -->
-    <div class="settings-card">
-      <div class="settings-left">
-        <span class="settings-icon">📶</span>
-        <span>Bluetooth</span>
-      </div>
-      <div class="connected-text">Connected</div>
-    </div>
-
-    <!-- Battery -->
-    <div class="settings-card">
-      <div class="settings-left">
-        <span class="settings-icon">🔋</span>
-        <span>Battery Level</span>
-      </div>
-      <div class="right">80%</div>
-    </div>
-
-    <!-- Default Speed -->
-    <div class="settings-card column">
-      <div class="row">
-        <div class="settings-left">
-          <span class="icon">⚡</span>
-          <span>Default Speed</span>
-        </div>
-
-        
-      </div>
-
-      <div class="speed-options">
-        <label><input type="radio" name="speed"> Slow</label>
-        <label><input type="radio" name="speed" checked> Medium</label>
-        <label><input type="radio" name="speed"> Fast</label>
-      </div>
-    </div>
-
-    <!-- Smooth Mode -->
-    <div class="settings-card">
-      <div class="settings-left">
-        <span class="settings-icon">〰</span>
-        <span>Smooth Mode</span>
-      </div>
-
-      <label class="switch">
-        <input type="checkbox" checked>
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <!-- Obstacle Distance -->
-    <div class="settings-card column">
-      <div class="row">
-        <div class="left">
-          <span class="icon">📏</span>
-          <span>Obstacle Distance</span>
-        </div>
-      </div>
-
-      <div class="distance-values">
-        <span>10cm</span>
-        <span>20cm</span>
-      </div>
-
-      <input type="range" min="10" max="20" value="15" class="distance-slider">
-    </div>
-
-    <!-- Low Battery Alert -->
-    <div class="settings-card">
-      <div class="left">
-        <span class="icon">🌙</span>
-        <span>Low Battery Alert</span>
-      </div>
-
-      <label class="switch">
-        <input type="checkbox" checked>
-        <span class="slider"></span>
-      </label>
-    </div>
-
-    <!-- Theme -->
-    <div class="settings-card">
-      <div class="left">
-        <span class="icon">🌗</span>
-        <span>Theme</span>
-      </div>
-
-      <div class="theme-toggle">
-       <button onclick="setTheme('light')">Light</button>
-       <button onclick="setTheme('dark')">Dark</button>
-</div>
-    </div>
-
-    
-
-
-  <!-- BOTTOM NAV -->
-  <div class="bottom-nav">
-  <a href="home.html" class="nav-item ">🏠<span>Home</span></a>
-  <a href="control.html" class="nav-item">🎮<span>Control</span></a>
-  <a href="activity.html" class="nav-item">📊<span>Activity</span></a>
-  <a href="settings.html" class="nav-item active">⚙<span>Settings</span></a>
+<div class="status-right">  
+  <span class="battery">🔋 80%</span>  
 </div>
 
+  </div>    <div class="settings-list">  <!-- Bluetooth -->  
+<div class="settings-card">  
+  <div class="settings-left">  
+    <span class="settings-icon">📶</span>  
+    <span>Bluetooth</span>  
+  </div>  
+  <div class="connected-text">Connected</div>  
+</div>  
 
-</div>
-  <!-- Your page content above -->
+<!-- Battery -->  
+<div class="settings-card">  
+  <div class="settings-left">  
+    <span class="settings-icon">🔋</span>  
+    <span>Battery Level</span>  
+  </div>  
+  <div class="right">80%</div>  
+</div>  
 
-  <script>
-    function setTheme(mode) {
-      document.body.classList.remove("dark-theme", "light-theme");
-      document.body.classList.add(mode + "-theme");
-      localStorage.setItem("theme", mode);
-    }
+<!-- Default Speed -->  
+<div class="settings-card column">  
+  <div class="row">  
+    <div class="settings-left">  
+      <span class="icon">⚡</span>  
+      <span>Default Speed</span>  
+    </div>  
 
-    // Apply saved theme on page load
-    window.onload = function () {
-      const savedTheme = localStorage.getItem("theme") || "dark";
-      document.body.classList.add(savedTheme + "-theme");
-    };
-  </script>
+      
+  </div>  
 
+  <div class="speed-options">  
+    <label><input type="radio" name="speed"> Slow</label>  
+    <label><input type="radio" name="speed" checked> Medium</label>  
+    <label><input type="radio" name="speed"> Fast</label>  
+  </div>  
+</div>  
 
+<!-- Smooth Mode -->  
+<div class="settings-card">  
+  <div class="settings-left">  
+    <span class="settings-icon">〰</span>  
+    <span>Smooth Mode</span>  
+  </div>  
 
-</body>
+  <label class="switch">  
+    <input type="checkbox" checked>  
+    <span class="slider"></span>  
+  </label>  
+</div>  
+
+<!-- Obstacle Distance -->  
+<div class="settings-card column">  
+  <div class="row">  
+    <div class="left">  
+      <span class="icon">📏</span>  
+      <span>Obstacle Distance</span>  
+    </div>  
+  </div>  
+
+  <div class="distance-values">  
+    <span>10cm</span>  
+    <span>20cm</span>  
+  </div>  
+
+  <input type="range" min="10" max="20" value="15" class="distance-slider">  
+</div>  
+
+<!-- Low Battery Alert -->  
+<div class="settings-card">  
+  <div class="left">  
+    <span class="icon">🌙</span>  
+    <span>Low Battery Alert</span>  
+  </div>  
+
+  <label class="switch">  
+    <input type="checkbox" checked>  
+    <span class="slider"></span>  
+  </label>  
+</div>  
+
+<!-- Theme -->  
+<div class="settings-card">  
+  <div class="left">  
+    <span class="icon">🌗</span>  
+    <span>Theme</span>  
+  </div>  
+
+  <div class="theme-toggle">  
+   <button onclick="setTheme('light')">Light</button>  
+   <button onclick="setTheme('dark')">Dark</button>
+
+</div>  
+    </div>    <!-- BOTTOM NAV -->    <div class="bottom-nav">  
+  <a href="home.html" class="nav-item ">🏠<span>Home</span></a>  
+  <a href="control.html" class="nav-item">🎮<span>Control</span></a>  
+  <a href="activity.html" class="nav-item">📊<span>Activity</span></a>  
+  <a href="settings.html" class="nav-item active">⚙<span>Settings</span></a>  
+</div>  </div>  
+  <!-- Your page content above -->    <script>  
+    function setTheme(mode) {  
+      document.body.classList.remove("dark-theme", "light-theme");  
+      document.body.classList.add(mode + "-theme");  
+      localStorage.setItem("theme", mode);  
+    }  
+  
+    // Apply saved theme on page load  
+    window.onload = function () {  
+      const savedTheme = localStorage.getItem("theme") || "dark";  
+      document.body.classList.add(savedTheme + "-theme");  
+    };  
+  </script>  </body>  
 </html>
